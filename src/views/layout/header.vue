@@ -99,7 +99,7 @@ export default {
                         content: "";
                         height: 2px;
                         background: #0097a7;
-                        bottom: 0;
+                        bottom: 2px;
                         left: 0;
                         right: 0;
                     }
