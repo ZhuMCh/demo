@@ -6,11 +6,9 @@
     <div class="nav_box">
         <div class="user_info">
             <div class="avatar">
-                <div class="avatar_insert">
-                    <img src="../../assets/logo.png" alt="" width="100%" height="100%">
-                </div>
+                <div class="avatar_insert"></div>
             </div>
-            <div class="name">User Name</div>
+            <div class="name">Monkey D Luffy</div>
         </div>
         <div class="nav_bar">
             <ul class="nav">
@@ -53,13 +51,14 @@ export default {
         justify-content: space-between;
         .user_info{
             position: relative;
-            width: 250px;
+            // width: 250px;
             text-align: center;
             .name{
                 font-size: 34px;
                 margin-top: 35px;
                 color: #356859;
                 font-weight: bold;
+                padding-left: 50px;
             }
             .avatar{
                 position: absolute;
@@ -74,10 +73,12 @@ export default {
                 .avatar_insert{
                     width: 120px;
                     height: 120px;
-                    padding: 20px;
                     overflow: hidden;
                     border-radius: 50%;
                     box-shadow: -4px -4px 5px #3e4247,7px 7px 7px #1d1f23;
+                    background: url('../../assets/lf.jpeg') no-repeat center;
+                    background-size: contain;
+                    border: 10px solid #292d32;
                 }
             }
         }
