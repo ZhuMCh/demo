@@ -1,23 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import navRouter from './modules/nav.js'
 
 Vue.use(VueRouter)
 
 const routes = [
-	{
-		path: '/',
-		name: 'layout',
-		redirect: "/vitae",
-		component: () => import('../views/layout/index.vue'),
-		children: [
-			{
-				path: '/vitae',
-				name: 'vitae',
-				component: () => import('../views/vitae.vue'),
-				mate: { title: '个人简历'}
-			}
-		]
-	},
+	...navRouter,
 	{
 		path: '/login',
 		name: 'login',

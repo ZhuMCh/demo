@@ -14,10 +14,7 @@
         </div>
         <div class="nav_bar">
             <ul class="nav">
-                <li>菜单一</li>
-                <li class="active">菜单二</li>
-                <li>菜单三</li>
-                <li>菜单四</li>
+                <li v-for="item in routers" :key="item.path" :class="{'active':item.path==activeRouter}"><router-link :to="item.path">{{item.mate.title}}</router-link></li>
             </ul>
         </div>
     </div>
@@ -25,8 +22,21 @@
 </template>
 
 <script>
+import navRouter from '../../router/modules/nav'
 export default {
+    data() {
+        return {
 
+        }
+    },
+    computed: {
+        activeRouter() {
+            return this.$route.path
+        },
+        routers() {
+            return navRouter[0]['children']
+        }
+    },
 }
 </script>
 
@@ -73,12 +83,10 @@ export default {
         }
         .nav_bar{
             .nav{
-                // display: flex;
                 height: 50px;
                 margin-top: 30px;
                 li{
                     display: inline-block;
-                    // width: 80px;
                     padding: 0 20px;
                     height: 50px;
                     line-height: 50px;
@@ -87,6 +95,12 @@ export default {
                     cursor: pointer;
                     &:hover{
                         background: rgba($color: #fff, $alpha: 0.1);
+                    }
+                    a{
+                        display: block;
+                        text-decoration: none;
+                        // background: transparent;
+                        color: unset;
                     }
                 }
                 .active{

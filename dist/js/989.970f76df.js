@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkmy_vue"]=self["webpackChunkmy_vue"]||[]).push([[989],{1989:function(t,e,s){s.r(e),s.d(e,{default:function(){return l}});var n=function(){var t=this;t._self._c;return t._m(0)},a=[function(){var t=this,e=t._self._c;return e("div",{staticClass:"vitae_content"},[e("aside",{staticClass:"aside"}),e("main",{staticClass:"main"})])}],u={name:"blog",data(){return{}},methods:{}},i=u,r=s(1001),c=(0,r.Z)(i,n,a,!1,null,"be2e6d78",null),l=c.exports}}]);
+//# sourceMappingURL=989.970f76df.js.map

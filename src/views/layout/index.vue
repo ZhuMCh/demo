@@ -4,7 +4,11 @@
         <Header />
     </div>
     <div class="main_wrapper">
-        <router-view />
+        <transition name="fade-transform" mode="out-in">
+            <keep-alive>
+                <router-view :key="key"/>
+            </keep-alive>
+        </transition>
     </div>
 </div>
 </template>
@@ -14,6 +18,11 @@ import Header from './header.vue'
 export default {
     components: {
         Header
+    },
+    computed: {
+        key() {
+            return this.$route.path
+        },
     }
 }
 </script>
@@ -25,12 +34,28 @@ export default {
     width: 100%;
     background-color: #292d32;
     .header-wrapper{
-        // height: 400px;
         width: 100%;
     }
     .main_wrapper{
         min-height: 500px;
         width: 100%;
     }
+}
+</style>
+<style>
+/* fade-transform */
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all .5s;
+}
+
+.fade-transform-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>
