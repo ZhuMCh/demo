@@ -1,5 +1,6 @@
 <template>
 <div class="heaader_content">
+    <router-link class="login_btn" to="/login">登陆</router-link>
     <div class="banner_box">
         <img src="../../assets/th.jpg" alt="" width="100%" height="100%">
     </div>
@@ -41,6 +42,11 @@ export default {
 <style lang="scss" scoped>
 .heaader_content{
     box-shadow: inset -4px -4px 5px #3e4247,inset 7px 7px 7px #1d1f23;
+    .login_btn{
+        position: absolute;
+        top: 30px;
+        right: 30px;
+    }
     .banner_box{
         height: 300px;
         width: 100%;
