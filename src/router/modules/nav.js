@@ -1,6 +1,6 @@
 const navRouter = [
 	{
-		path: '/',
+		path: '/my',
 		name: 'layout',
 		redirect: "/vitae",
 		component: () => import('../../views/layout/index.vue'),

@@ -1,11 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import navRouter from './modules/nav.js'
+import demoRouter from './modules/demo'
 
 Vue.use(VueRouter)
 
 const routes = [
+	{
+		path: '/',
+		component: () => import('../views/test.vue')
+	},
 	...navRouter,
+	...demoRouter,
 	{
 		path: '/login',
 		name: 'login',
