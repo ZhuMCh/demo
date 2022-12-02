@@ -1,30 +1,44 @@
 <template>
-    <div class="demoPage">
-        <!-- <Cloud /> -->
-        <ListPage>
-            <template slot="header">
-                <search-form :formOptions="formOptions"></search-form>
-            </template>
-            <template slot="table">
-                <el-button @click="modelChange">切换背景</el-button>
-            </template>
-            <template slot="footer">分页</template>
-        </ListPage>
-    </div>
+<div class="page">
+    <ListPage>
+        <template slot="header">
+            <search-form :formOptions="formOptions" @handleSearch="handleSearch"></search-form>
+        </template>
+        <template slot="table">
+            <my-table :columns="tableColumn" :tableData="tableData">
+                <template slot="leftAction">
+                    <el-button type="primary">新增</el-button>
+                    <el-button type="primary">导入</el-button>
+                </template>
+                <template slot="rightAction">
+                    <el-button>打印</el-button>
+                </template>
+                <template slot="sex" slot-scope="{row}">
+                    <span>{{row.sex==0?'女':'男'}}</span>
+                </template>
+                <template slot="action" slot-scope="{row}">
+                    <el-button type="text" @click="lookDetail(row)">查看详情</el-button>
+                </template>
+            </my-table>
+        </template>
+        <template slot="footer">分页</template>
+    </ListPage>
+</div>
 </template>
 
 <script>
-import Cloud from './components/cloud'
 import ListPage from '@/components/listPage'
 import SearchForm from '@/components/SearchForm'
+import MyTable from '@/components/MyTable'
 export default {
     components: {
-        Cloud,
         ListPage,
-        SearchForm
+        SearchForm,
+        MyTable
     },
     data() {
         return {
+            searchForm:{},
             formOptions: [
                 {
                     prop: 'name',
@@ -47,6 +61,9 @@ export default {
                     ],
                     attr: {
                         placeholder:'请选择性别'
+                    },
+                    events:{
+                        change:this.handleChange
                     }
                 },
                 {
@@ -63,30 +80,37 @@ export default {
                 { prop: 'params3', label: '条件3', element: 'input'},
                 { prop: 'params4', label: '条件4', element: 'input'},
             ],
-            dark:false,
+            tableColumn:[
+                {label: '姓名',prop:'name',alwaysShow:true},
+                {label: '年龄',prop:'age',attr:{sortable:true}},
+                {label: '性别',prop:'sex',slot:true},
+                {label: '其他备注',prop:'other'},
+                {label: '操作',prop:'',slot:true,attr:{width: '100'}}
+            ],
+            tableData: [
+                {name: '张三', age: '李四', sex: 1, other:'说明'}
+            ]
         }
     },
-    mounted() {
-        window.document.documentElement.setAttribute( "data-theme", 'light' );
-    },
     methods: {
-        modelChange() {
-            this.dark = !this.dark;
-            if(this.dark){
-                window.document.documentElement.setAttribute( "data-theme", 'dark' );
-            }else{
-                window.document.documentElement.setAttribute( "data-theme", 'light' );
-            }
+        lookDetail(data) {
+            console.log(data)
+        },
+        handleSearch(formData) {
+            this.searchForm = Object.assign(this.searchForm,formData)
+            console.log("父页面",formData,this.searchForm)
+        },
+        handleChange(value){
+            console.log("change",value)
         }
     }
 }
 </script>
 
-<style lang="scss" scoped>
-@import '@/assets/scss/common.scss';
-.demoPage{
-    @include background_color("background_color");
-    //再次使用了文字颜色变量
-        @include font_color("text-color");
+<style>
+.page{
+    background: var(--theme-bg);
+    color: var(--theme-color);
 }
 </style>
+    

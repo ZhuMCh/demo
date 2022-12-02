@@ -21,7 +21,7 @@ export default {
 }
 
 .sky {
-  height: 480px;
+  height: 300px;
   background: #007fd5;
   position: relative;
   overflow: hidden;

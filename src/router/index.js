@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 const routes = [
 	{
 		path: '/',
-		component: () => import('../views/test.vue')
+		component: () => import('../views/index.vue')
 	},
 	...navRouter,
 	...demoRouter,

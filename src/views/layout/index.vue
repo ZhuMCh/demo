@@ -32,7 +32,7 @@ export default {
     padding: 20px;
     height: 100%;
     width: 100%;
-    background-color: #292d32;
+    background-color: var(--theme-bg);
     .header-wrapper{
         width: 100%;
     }

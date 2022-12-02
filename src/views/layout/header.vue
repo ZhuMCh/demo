@@ -1,8 +1,17 @@
 <template>
-<div class="heaader_content">
-    <router-link class="login_btn" to="/login">登陆</router-link>
+<div class="header_content">
+    <div class="header_bar">
+        <el-switch
+            class="theme_change"
+            v-model="isTheme"
+            active-color="#555"
+            inactive-color="#e6e7ee">
+        </el-switch>
+        <router-link class="login_btn" to="/login">登陆</router-link>
+    </div>
     <div class="banner_box">
-        <img src="../../assets/th.jpg" alt="" width="100%" height="100%">
+        <!-- <img src="../../assets/th.jpg" alt="" width="100%" height="100%"> -->
+        <cloud />
     </div>
     <div class="nav_box">
         <div class="user_info">
@@ -21,31 +30,74 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import navRouter from '../../router/modules/nav'
+import Cloud from '../demo/components/cloud'
 export default {
+    components:{Cloud},
     data() {
         return {
-
+            isTheme: false
         }
     },
     computed: {
+        ...mapGetters(['theme']),
         activeRouter() {
             return this.$route.path
         },
         routers() {
             return navRouter[0]['children']
+        },
+    },
+    watch:{
+        isTheme:function(){
+            this.$store.dispatch("handleTheme",this.isTheme?'dark':'');
         }
     },
+    mounted() {
+        this.isTheme = this.theme?true:false;
+    }
 }
 </script>
 
 <style lang="scss" scoped>
-.heaader_content{
-    box-shadow: inset -4px -4px 5px #3e4247,inset 7px 7px 7px #1d1f23;
-    .login_btn{
+.header_content{
+    position: relative;
+    box-shadow: inset -4px -4px 5px var(--theme-shadow1),inset 7px 7px 7px var(--theme-shadow2);
+    .header_bar{
+        padding: 15px;
         position: absolute;
-        top: 30px;
-        right: 30px;
+        right: 0;
+        left: 0;
+        z-index: 100;
+        background: rgba($color: #000000, $alpha: .2);
+        text-align: right;
+    }
+    .login_btn{
+        // position: absolute;
+        // top: 30px;
+        // right: 30px;
+        color: #f1f1f1;
+        z-index: 100;
+        margin-left: 20px;
+    }
+    .theme_change{
+        // position: absolute;
+        // top: 30px;
+        // right: 80px;
+        // z-index: 100;
+    }
+    ::v-deep .theme_change .el-switch__core::after{
+        font-family: element-icons!important;
+        content: "\e6f6" !important;
+        background: #fff;
+        line-height: 16px;
+    }
+    ::v-deep .theme_change.is-checked .el-switch__core::after{
+        content: "\e6f0" !important;
+        background: #333;
+        color: #fff;
+        text-align: right;
     }
     .banner_box{
         height: 300px;
@@ -74,17 +126,17 @@ export default {
                 left: 50px;
                 padding: 15px;
                 border-radius: 50%;
-                background-color: #292d32;
-                box-shadow: inset -4px -4px 5px #3e4247,inset 7px 7px 7px #1d1f23;
+                background-color: var(--theme-bg);
+                box-shadow: inset -4px -4px 5px var(--theme-shadow1),inset 7px 7px 7px var(--theme-shadow2);
                 .avatar_insert{
                     width: 120px;
                     height: 120px;
                     overflow: hidden;
                     border-radius: 50%;
-                    box-shadow: -4px -4px 5px #3e4247,7px 7px 7px #1d1f23;
+                    box-shadow: -4px -4px 5px var(--theme-shadow1),7px 7px 7px var(--theme-shadow2);
                     background: url('../../assets/lf.jpeg') no-repeat center;
                     background-size: contain;
-                    border: 10px solid #292d32;
+                    border: 10px solid var(--theme-bg);
                 }
             }
         }
@@ -98,7 +150,6 @@ export default {
                     height: 50px;
                     line-height: 50px;
                     text-align: center;
-                    color: rgba($color: #fff, $alpha: .6);
                     cursor: pointer;
                     &:hover{
                         background: rgba($color: #fff, $alpha: 0.1);
@@ -106,15 +157,14 @@ export default {
                     a{
                         display: block;
                         text-decoration: none;
-                        // background: transparent;
-                        color: unset;
+                        color: var(--theme-color1);
                     }
                 }
                 .active{
                     position: relative;
                     color: #0097a7;
-                    text-shadow: 0px 0 10px #0097a7;
-                    box-shadow: inset -4px -4px 5px #3e4247,inset 7px 7px 7px #1d1f23;
+                    // text-shadow: 0px 0 10px #0097a7;
+                    box-shadow: inset -4px -4px 5px var(--theme-shadow1),inset 7px 7px 7px var(--theme-shadow2);
                     &::after{
                         position: absolute;
                         content: "";

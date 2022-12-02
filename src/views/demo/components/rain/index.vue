@@ -1,28 +1,54 @@
 <template>
 <div class="bg">
-    <div class="glass"></div>
+    <!-- <div class="glass"></div> -->
     <!-- <div class="rain"></div> -->
     <canvas id="canvas"></canvas>
 </div>
 </template>
 
 <script>
+
 export default {
     mounted() {
         var c=document.getElementById("canvas");
+        c.width = window.innerWidth;
+        c.height = window.innerHeight;
         var ctx=c.getContext("2d");
-        ctx.fillStyle="#FF0000";
-        ctx.fillRect(0,0,150,75);
+        var num = 50;
+
+        let timer=setInterval(()=>{
+            num++;
+            console.log(num);
+            if(num<(c.height-100)){
+                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+                ctx.save()
+                // ctx.fillRect(num, 0, 100, 100);
+                // console.log("内部",num)
+                ctx.beginPath();
+                ctx.fillStyle= "#fff";
+                ctx.arc(500, num, 50, 0, Math.PI * 2);
+                ctx.fill();
+            }else{
+                clearInterval(timer)
+            }
+        })
+        
+    },
+    methods: {
+        rand(min, max) {
+            return Math.random() * (max - min) + min
+        }
     }
 }
 </script>
 
 <style>
 .bg{
-    position: relative;
+    /* position: relative; */
     height: 100%;
     width: 100%;
-    background: url('@/assets/th.jpg') no-repeat 100%;
+    /* background: url('@/assets/th.jpg') no-repeat 100%; */
+    background: #0b0f34;
 }
 .glass{
     position: absolute;
@@ -47,8 +73,7 @@ export default {
   left: 50%;
 }
 #canvas{
+    /* position: absolute; */
     display: block;
-    width: 100vw;
-    height: 100vh;
 }
 </style>
