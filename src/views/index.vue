@@ -228,7 +228,6 @@ export default {
 	transform: translate(-50%, -50%);
 	transform-origin: left top;
 	overflow: hidden;
-	// background: #666;
 }
 .header{
 	display: flex;
@@ -243,7 +242,6 @@ export default {
 			font-size: 32px;
 			color: #fff;
 			font-weight: bold;
-			// word-spacing: 20px;
 			letter-spacing: 10px;
 			b{
 				display: block;
@@ -258,6 +256,7 @@ export default {
 		color: #fff;
 		font-weight: bold;
 		margin-top: 10px;
+		line-height: 60px;
 	}
 	.nav_bar{
 		.nav_item{
