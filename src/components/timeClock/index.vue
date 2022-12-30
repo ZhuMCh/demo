@@ -42,7 +42,7 @@ export default {
                     }
                 }
                 this.currentTime = year + '年' + mounth + '月' + (day<10?('0'+day):day) + '日' + " " + (h<10?("0"+h):h) + ":" + (m<10?('0'+m):m) + ":" + (s<10?('0'+s):s) + " " + week;
-                console.log("当前时间",this.currentTime)
+                // console.log("当前时间",this.currentTime)
             },1000)
         }
     }

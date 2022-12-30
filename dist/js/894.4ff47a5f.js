@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunkmy_vue"]=self["webpackChunkmy_vue"]||[]).push([[894],{1894:function(t,s,e){e.r(s),e.d(s,{default:function(){return l}});var a=function(){var t=this;t._self._c;return t._m(0)},n=[function(){var t=this,s=t._self._c;return s("div",{staticClass:"vitae_content"},[s("aside",{staticClass:"aside"}),s("main",{staticClass:"main"})])}],u={name:"case",data(){return{}},methods:{}},i=u,c=e(1001),r=(0,c.Z)(i,a,n,!1,null,"3bf879f8",null),l=r.exports}}]);
-//# sourceMappingURL=894.4ff47a5f.js.map
