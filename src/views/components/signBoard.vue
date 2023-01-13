@@ -1,7 +1,7 @@
 <template>
 <list-page>
     <sign-board :signUrl.sync="signUrl" :visible.sync="visible"></sign-board>
-    <el-dialog v-if="visible" :visible.sync="visible" title="稿件" width="60%">
+    <el-dialog v-if="visible" :visible.sync="visible" title="Article" width="60%">
         <div class="text_content">
             <h1>Lorem ipsum dolor sit</h1>
             <hr>
