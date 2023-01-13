@@ -1,5 +1,7 @@
+import store from "../../store"
+
 function checkArray(key) {
-    let arr = ['1', '2', '3', '4']
+    let arr = store.state.permissionList
     let index = arr.indexOf(key)
     if (index > -1) {
         return true // 有权限

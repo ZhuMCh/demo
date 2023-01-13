@@ -1,7 +1,5 @@
 <template>
 <div class="bg">
-    <!-- <div class="glass"></div> -->
-    <!-- <div class="rain"></div> -->
     <canvas id="canvas"></canvas>
 </div>
 </template>
@@ -84,28 +82,6 @@ export default {
     width: 100%;
     /* background: url('@/assets/th.jpg') no-repeat 100%; */
     background: #0b0f34;
-}
-.glass{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: url('@/assets/th.jpg') no-repeat 100%;
-    clip-path: inset(0 0);
-    filter: blur(10px);
-}
-.rain{
-  width: 30px;
-  height: 30px;
-  /* background: linear-gradient(90deg, rgba(207,238,230,1) 0%, rgba(144,229,236,1) 100%, rgba(0,212,255,1) 100%); */
-  background: url('@/assets/th.jpg') no-repeat center;
-  background-size: contain;
-  border-radius: 90% 10% 60% 40% / 60% 10% 90% 40%;
-  filter: blur(1px);
-  /* border-radius: 100%; */
-  transform: rotate(-45deg);
-  position: absolute;
-  top: 400px;
-  left: 50%;
 }
 #canvas{
     /* position: absolute; */

@@ -13,6 +13,12 @@ Vue.config.productionTip = false
 Vue.use(Element, { size: 'medium' });
 Vue.use(dataV)
 
+// 全局模板注册
+import { components } from '@/components';
+components.forEach(component => {
+  Vue.component(component.name, component);
+});
+
 import './directive/index'
 
 new Vue({

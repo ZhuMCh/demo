@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import navRouter from './modules/nav.js'
+import navRouter from './modules/nav'
 import demoRouter from './modules/demo'
+import componentsRouter from './modules/components'
 
 Vue.use(VueRouter)
 
@@ -12,6 +13,7 @@ const routes = [
 	},
 	...navRouter,
 	...demoRouter,
+	...componentsRouter,
 	{
 		path: '/login',
 		name: 'login',

@@ -53,15 +53,6 @@ export default {
             }
         },
     },
-    computed: {
-        // searchForm() {
-        //     return this.formOptions.reduce((obj,item) => {
-        //         obj = {...obj, [item.prop]:item.initValue||'' }
-        //         // Object.assign(obj,{[item.prop]:item.initValue||''})
-        //         return obj
-        //     },{})
-        // }
-    },
     data() {
         return {
             open: false,
@@ -75,7 +66,7 @@ export default {
         },{})
     },
     mounted() {
-        console.log(this.searchForm);
+        this.$emit('handleSearch',this.searchForm)
     },
     methods: {
         handleSearch() {

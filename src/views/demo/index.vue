@@ -1,21 +1,22 @@
 <template>
-<div class="demoPage">
-    <!-- <Cloud /> -->
-	<Rain />
-</div>
+<list-page>
+    <component :is="currentComponent"></component>
+</list-page>
 </template>
 
 <script>
 import Cloud from './components/cloud'
 import Rain from './components/rain'
+import DataV from './components/datav'
 export default {
     components: {
         Cloud,
-		Rain
+		Rain,
+        DataV
     },
     data() {
         return {
-
+            currentComponent: 'DataV'
         }
     },
 	mounted() {

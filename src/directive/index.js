@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 const files = require.context('./modules', false, /.+\.js$/)
-console.log(files)
+// console.log(files)
 // 按模块引入
 // files.keys(): 打印出来为['./focus.js','/loadmore.js']
 files.keys().forEach(fileName => {
@@ -11,7 +11,7 @@ files.keys().forEach(fileName => {
     .replace(/^\.\//, '') // 去除开头的'./'
     .replace(/\.\w+$/, '') // 去除文件扩展名
 
-    console.log(directiveConfig.default,directiveName)
+    // console.log(directiveConfig.default,directiveName)
     
   Vue.directive(directiveName, directiveConfig.default || directiveConfig)
 })

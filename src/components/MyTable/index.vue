@@ -1,6 +1,6 @@
 <template>
-<div class="zj">
-    <div class="tableAction">
+<div class="table-container">
+    <div class="table-action">
         <div class="leftAction">
             <slot name="leftAction"></slot>
         </div>
@@ -22,8 +22,8 @@
             </div>
         </div>
     </div>
-    <div class="tableContent">
-        <el-table :key="key" :data="tableData" border>
+    <div class="table-content" v-loading="tableData.loading">
+        <el-table :key="key" :data="tableData.list" border height="100%" style="width:100%">
             <el-table-column type="index" label="序号" width="60" align="center"></el-table-column>
             <template v-for="column in tableColumn">
                 <el-table-column :key="column.prop" :label="column.label" :prop="column.prop" v-bind="column.attr" v-if="column.prop">
@@ -39,6 +39,18 @@
                 </el-table-column>
             </template>
         </el-table>
+    </div>
+    <div class="table-pagination">
+        <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="1"
+            :page-sizes="[10, 20, 30, 40,100]"
+            :page-size="10"
+            layout="total, prev, pager, next, sizes, jumper"
+            :total="tableData.total">
+    </el-pagination>
     </div>
 </div>
 </template>
@@ -60,9 +72,13 @@ export default {
             }
         },
         tableData: {
-            type: Array,
+            type: Object,
             default: ()=>{
-                return []
+                return {
+                    list:[],
+                    total: 0,
+                    loading: false
+                }
             }
         }
     },
@@ -70,7 +86,7 @@ export default {
         return {
             key: 1,
             configColumn: [],
-            tableColumn:this.columns
+            tableColumn:this.columns,
         }
     },
     watch:{
@@ -86,13 +102,24 @@ export default {
         this.configColumn = this.columns.map(item=>item.prop);
     },
     methods: {
-
+        handleSizeChange(val){
+            console.log("pageSize",val)
+            this.$emit("update:pageSize",val)
+        },
+        handleCurrentChange(val){
+            console.log("page",val)
+            this.$emit("update:pageNo",val)
+        },
     }
 }
 </script>
 
 <style lang="scss" scoped>
-.tableAction{
+.table-container{
+    height: 100%;
+    overflow: hidden;
+}
+.table-action{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -102,8 +129,8 @@ export default {
 .dropConfig{
     display: inline-block;
     margin-left: 20px;
-    
 }
+
 .dropBox{
     padding: 0 10px;
     .dropItem{
@@ -116,7 +143,13 @@ export default {
         }
     }
 }
-.tableContent{
+.table-content{
     margin-top: 20px;
+    height: calc(100% - 36px - 72px - 40px);
+}
+.table-pagination{
+    padding: 20px;
+    text-align: center;
+    height: 72px;
 }
 </style>

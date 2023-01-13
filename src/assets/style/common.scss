@@ -33,4 +33,16 @@ body{
 ::-webkit-scrollbar-track-piece {
     background-color: var(--theme-shadow1);
 } */
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #b8b9be;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+}
+::-webkit-scrollbar-track-piece {
+    background-color: #fff;
+}
   

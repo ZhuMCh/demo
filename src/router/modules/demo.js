@@ -5,8 +5,8 @@ const demoRouter = [
 		component: () => import('../../views/demo/index.vue')
 	},
 	{
-		path: '/components',
-		name: 'components',
+		path: '/test',
+		name: 'test',
 		component: () => import('../../components/index.vue')
 	}
 ]

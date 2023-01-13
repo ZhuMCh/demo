@@ -6,6 +6,7 @@ const copy = {
             if (!el.$value) {
                 // 值为空的时候，给出提示。可根据项目UI仔细设计
                 console.log('无复制内容')
+                Message.warning("无复制内容")
                 return
             }
             // 动态创建 textarea 标签
