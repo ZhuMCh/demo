@@ -43,7 +43,7 @@ export default {
         this.$nextTick(() => {
             this.init();
             // 创建鼠标/手势按下监听器
-            window.addEventListener(this.mobileStatus ? "touchstart" : "mousedown", this.reset)
+            window.addEventListener(this.mobileStatus ? "touchstart" : "mousedown", this.startDraw)
             // 创建鼠标/手势 弹起/离开 监听器
             window.addEventListener(this.mobileStatus ? "touchend" : "mouseup", this.cloaseDraw)
         })
@@ -78,7 +78,7 @@ export default {
             this.canvas = canvas
             this.ctx = ctx
         },
-        reset(event) {
+        startDraw(event) {
             this.textShow = false
             // 获取偏移量及坐标
             const { offsetX, offsetY, pageX, pageY } = this.mobileStatus ? event.changedTouches[0] : event
