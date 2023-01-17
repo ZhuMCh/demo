@@ -10,13 +10,21 @@
                 <el-dropdown>
                     <el-button plain icon="el-icon-setting">列表配置</el-button>
                     <el-dropdown-menu slot="dropdown">
-                        <el-checkbox-group v-model="configColumn" true-label="prop" class="dropBox">
-                            <draggable :list="columns">
-                                <template v-for="item in columns">
-                                    <el-checkbox class="dropItem" :key="item.prop" :disabled="item.alwaysShow" :label="item.prop" v-if="item.prop">{{item.label}}</el-checkbox>
+                        <div class="dropBox">
+                            <draggable :list="tableColumn">
+                                <template v-for="item in tableColumn">
+                                    <el-checkbox class="dropItem" :key="item.prop" v-model="item.show" :disabled="item.alwaysShow" v-if="item.prop">{{item.label}}</el-checkbox>
                                 </template>
                             </draggable>
-                        </el-checkbox-group>
+                        </div>
+                        
+                        <div class="dropAction">
+                            <el-button type="text" @click="reset">重置</el-button>
+                            <el-button type="text" @click="refresh">刷新</el-button>
+                            <el-tooltip content="初始化配置请点'重置',保留当前配置请点'刷新'" effect="light">
+                                <i class="el-icon-question text-button-warning"></i>
+                            </el-tooltip>
+                        </div>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
@@ -24,20 +32,25 @@
     </div>
     <div class="table-content" v-loading="tableData.loading">
         <el-table :key="key" :data="tableData.list" border height="100%" style="width:100%">
-            <el-table-column type="index" label="序号" width="60" align="center"></el-table-column>
-            <template v-for="column in tableColumn">
-                <el-table-column :key="column.prop" :label="column.label" :prop="column.prop" v-bind="column.attr" v-if="column.prop">
+            <el-table-column type="selection" width="60" align="center" v-if="tableConfig.selection" fixed="left"></el-table-column>
+            <el-table-column type="index" label="序号" width="60" align="center" fixed="left"></el-table-column>
+            <template v-for="item in tableColumn">
+                <el-table-column :key="item.prop" :label="item.label" :prop="item.prop" v-bind="item.attr" show-overflow-tooltip v-if="item.show">
                     <template slot-scope="{ row }">
-                        <slot :name="column.prop" :row="row" v-if="column.slot"></slot>
-                        <template v-else>{{row[column.prop]}}</template>
-                    </template>
-                </el-table-column>
-                <el-table-column :label="column.label" v-bind="column.attr" :key="column.label" v-else>
-                    <template slot-scope="{ row }">
-                        <slot name="action" :row="row"></slot>
+                        <template v-if="item.dictKey">
+                            {{ formatter(item.dictKey,row[item.prop]) }}
+                        </template>
+                        <template v-else-if="item.isImg">
+                            <el-image style="width: 40px; height: 40px" :src="row[item.prop]" :preview-src-list="[row[item.prop]]"></el-image>
+                        </template>
+                        <template v-else>
+                            <slot :name="item.prop" :row="row" v-if="item.slot"></slot>
+                            <template v-else>{{row[item.prop]}}</template>
+                        </template>
                     </template>
                 </el-table-column>
             </template>
+            <slot name="action"></slot>
         </el-table>
     </div>
     <div class="table-pagination">
@@ -64,44 +77,95 @@ export default {
         draggable
     },
     props: {
-        columns: {
-            type: Array,
-            required: true,
+        tableConfig: {
+            type: Object,
             default: ()=>{
-                return []
+                return {
+                    url: 'tableColumns',
+                    selection: false,
+                    allColumns: []
+                }
             }
         },
         tableData: {
             type: Object,
             default: ()=>{
                 return {
-                    list:[],
+                    list: [],
                     total: 0,
                     loading: false
                 }
+            }
+        },
+        dict:{
+            type: Object,
+            default: ()=>{
+                return {}
             }
         }
     },
     data() {
         return {
             key: 1,
-            configColumn: [],
-            tableColumn:this.columns,
+            tableColumn:[],
         }
     },
-    watch:{
-        columns:function(){
-            this.configColumn = this.tableColumn.map(item=>item.prop);
-        },
-        configColumn:function(newVal,oldVal){
-            this.tableColumn = this.columns.filter(item=>newVal.indexOf(item.prop)>=0);
-            this.key=this.key+1
+    computed: {
+
+    },
+    watch: {
+        tableColumn:{
+            deep: true,
+            handler(newVal,oldVal){
+                this.key=this.key+1
+                this.$store.dispatch('handleTableCol',{key:this.tableConfig.url,value:JSON.stringify(newVal)})
+            }
         },
     },
     created() {
-        this.configColumn = this.columns.map(item=>item.prop);
+        let sessionData = sessionStorage.getItem(this.tableConfig.url)
+        if(sessionData){
+            this.tableColumn = JSON.parse(sessionData)
+        }else{
+            this.tableColumn = JSON.parse(JSON.stringify(this.tableConfig.allColumns));
+            this.$store.dispatch('handleTableCol',{key:this.tableConfig.url,value:JSON.stringify(this.tableConfig.allColumns)})
+        }
     },
     methods: {
+        reset(){
+            this.tableColumn = JSON.parse(JSON.stringify(this.tableConfig.allColumns));
+            this.$store.dispatch('handleTableCol',{key:this.tableConfig.url,value:JSON.stringify(this.tableConfig.allColumns)})
+        },
+        refresh(){
+            // 获取删除项
+            let del = this.tableColumn.filter(v => {
+                return this.tableConfig.allColumns.every(e => e.prop != v.prop);
+            });
+            // 获取新增项
+            let add = this.tableConfig.allColumns.filter(v => {
+                return this.tableColumn.every(e => e.prop != v.prop);
+            });
+            // 获取新增项的下标
+            let addIdx = [];
+            for(let i=0;i<add.length;i++){
+                let idx = this.tableConfig.allColumns.findIndex(item=>item.prop==add[i].prop)
+                addIdx.push(idx)
+            }
+            // 先删除当前数据中已删除的项
+            del.forEach(item=>{
+                this.tableColumn=this.tableColumn.filter(i=>{return item.prop!=i.prop})
+            })
+            // 再向当前数据中插入新增的项
+            addIdx.forEach((i,index)=>{
+                if(this.tableColumn.length>i){
+                    this.tableColumn.splice(i,0,add[index]) 
+                }else{
+                    this.tableColumn.push(add[index])
+                }
+            })
+            // 更新缓存
+            this.$store.dispatch('handleTableCol',{key:this.tableConfig.url,value:JSON.stringify(this.tableColumn)})
+        },
         handleSizeChange(val){
             console.log("pageSize",val)
             this.$emit("update:pageSize",val)
@@ -109,6 +173,12 @@ export default {
         handleCurrentChange(val){
             console.log("page",val)
             this.$emit("update:pageNo",val)
+        },
+        formatter(prop,val){
+            if(this.dict&&this.dict.hasOwnProperty(prop)){
+                let obj = this.dict[prop].find(item=>{return item.code==val})
+                return (obj&&obj.name)||''
+            }
         },
     }
 }
@@ -130,13 +200,26 @@ export default {
     display: inline-block;
     margin-left: 20px;
 }
-
+.dropAction{
+    padding: 0 10px;
+    border-top: 1px solid #ddd;
+    .el-icon-question{
+        vertical-align: text-bottom;
+        margin-left: 10px;
+    }
+}
 .dropBox{
     padding: 0 10px;
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
     .dropItem{
         display: block;
         padding: 5px 10px;
-        margin-right: 0;;
+        margin-right: 0;
+        ::v-deep .el-checkbox__label{
+            padding: 0 10px;
+        }
         &:hover{
             background: #ecf5ff;
             color: #66b1ff;

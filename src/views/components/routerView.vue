@@ -1,7 +1,7 @@
 <template>
 <div class="components_container">
     <header class="header">
-        <div class="title"><img src="../../assets/logo.png" alt="">组件预览</div>
+        <div class="title"><img src="../../assets/logo.png" alt=""><!--组件预览--></div>
         <el-breadcrumb separator="/" class="breadcrumb">
             <el-breadcrumb-item v-for="item in levelList" :key="item.path">{{ item.meta.title }}</el-breadcrumb-item>
         </el-breadcrumb>

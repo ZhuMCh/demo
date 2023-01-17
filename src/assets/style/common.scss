@@ -17,6 +17,19 @@ body{
     color: var(--theme-color);
 }
 
+.text-button-warning{
+    color: #E6A23C;
+    &:hover{
+        color: #E6A23C;
+    }
+}
+.text-button-danger{
+    color: #F56C6C;
+    &:hover{
+        color: #F56C6C;
+    }
+}
+
 /* ::-webkit-scrollbar 滚动条整体部分，可以设置宽度啥的
 ::-webkit-scrollbar-button 滚动条两端的按钮
 ::-webkit-scrollbar-track 外层轨道
@@ -36,6 +49,8 @@ body{
 
 ::-webkit-scrollbar {
     width: 7px;
+    height: 10px;
+    cursor: pointer;
 }
 ::-webkit-scrollbar-thumb {
     background-color: #b8b9be;

@@ -1,7 +1,7 @@
 <template>
 <div class="searchContent">
     <div :class="['searchBox', !open?'close':'']">
-        <el-form ref="searchForm" :model="searchForm" :inline="true" :label-width="labelWidth">
+        <el-form ref="searchForm" class="searchForm" :model="searchForm" :inline="true" :label-width="labelWidth" v-resize="handleResize">
             <el-form-item
                 v-for="(item,index) in formOptions"
                 :key="index"
@@ -21,7 +21,7 @@
                     v-bind="item.attr"
                     v-on="item.events"
                 >
-                    <el-option v-for="(op,i) in item.options" :key="i" :label="op.label" :value="op.value"></el-option>
+                    <el-option v-for="(op,i) in dict[item.prop]" :key="i" :label="op.name" :value="op.code"></el-option>
                 </el-select>
                 <el-date-picker type="date" v-if="item.element==='date'" v-model="searchForm[item.prop]" value-format="yyyy-MM-dd"></el-date-picker>
             </el-form-item>
@@ -33,7 +33,7 @@
             </div>
         </el-form>
     </div>
-    <div class="open" @click="open=!open"><i :class="[open?'el-icon-caret-top':'el-icon-caret-bottom']"></i></div>
+    <div class="open" @click="open=!open" v-if="searchFormHeight>60"><i :class="[open?'el-icon-caret-top':'el-icon-caret-bottom']"></i></div>
 </div>
 </template>
 
@@ -52,11 +52,18 @@ export default {
                 return []
             }
         },
+        dict: {
+            type: Object,
+            default() {
+                return {}
+            }
+        }
     },
     data() {
         return {
             open: false,
-            searchForm: {}
+            searchForm: {},
+            searchFormHeight: 58
         }
     },
     created() {
@@ -66,6 +73,7 @@ export default {
         },{})
     },
     mounted() {
+        this.searchFormHeight = document.querySelector('.searchForm').clientHeight;
         this.$emit('handleSearch',this.searchForm)
     },
     methods: {
@@ -79,6 +87,9 @@ export default {
         handleReset() {
             this.$refs.searchForm.resetFields()
             this.$emit('handleSearch',this.searchForm)
+        },
+        handleResize(){
+            this.searchFormHeight = document.querySelector('.searchForm').clientHeight;
         }
     }
 }
@@ -116,6 +127,9 @@ export default {
     .el-input{
         width: 200px !important;
     }
+    .searchForm{
+        padding-right: 320px;
+    }
     .searchBtn{
         width: 320px;
         position: absolute;
@@ -126,7 +140,6 @@ export default {
 }
 .close{
     height: 58px;
-    padding-right: 320px;
 }
 
 </style>

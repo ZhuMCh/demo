@@ -56,6 +56,7 @@ export default {
     },
     mounted() {
         this.isTheme = this.theme?true:false;
+        document.documentElement.className = this.theme
     }
 }
 </script>

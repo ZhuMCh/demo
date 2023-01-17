@@ -2,12 +2,13 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-import {setTheme} from '@/utils/auth'
+import {setTheme,setTablecol} from '@/utils/auth'
 
 export default new Vuex.Store({
   state: {
     theme: sessionStorage.getItem("theme")?sessionStorage.getItem("theme"):'',
-    permissionList: []
+    permissionList: [],
+    tableColumns: []
   },
   getters: {
     theme (state) {
@@ -15,6 +16,9 @@ export default new Vuex.Store({
     },
     permissionList (state) {
       return state.permissionList
+    },
+    tableColumns (state) {
+      return state.tableColumns
     }
   },
   mutations: {
@@ -25,6 +29,10 @@ export default new Vuex.Store({
     },
     SET_PERMISSION: (state,data) => {
       state.permissionList = data;
+    },
+    SET_TABLECOLUMNS: (state,data) => {
+      state.tableColumns = data.value
+      setTablecol(data.key,data.value)
     }
   },
   actions: {
@@ -33,6 +41,9 @@ export default new Vuex.Store({
     },
     handlePermission({commit},data) {
       commit("SET_PERMISSION",data)
+    },
+    handleTableCol({commit},data) {
+      commit("SET_TABLECOLUMNS",data)
     }
   },
   modules: {

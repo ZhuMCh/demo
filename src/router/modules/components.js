@@ -31,6 +31,12 @@ const componentsRouter = [
 				meta: { title: '签字版'}
 			},
 			{
+				path: '/richTextEditor',
+				name: 'richTextEditor',
+				component: () => import('../../views/components/richTextEditor.vue'),
+				meta: { title: '富文本编辑器'}
+			},
+			{
 				path: '/other',
 				name: 'other',
 				component: () => import('../../views/components/other.vue'),

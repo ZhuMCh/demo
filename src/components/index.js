@@ -6,6 +6,7 @@ import DefaultPanel from './MainPanel/default'
 import ScrollPanel from './ScrollPanel';
 import PanelItem from './ScrollPanel/PanelItem'
 import SignBoard from './SignBoard'
+import RichtextEditor from './RichtextEditor'
 
 export const components = [
     ListPage,
@@ -15,5 +16,6 @@ export const components = [
     DefaultPanel,
     ScrollPanel,
     PanelItem,
-    SignBoard
+    SignBoard,
+    RichtextEditor
 ]

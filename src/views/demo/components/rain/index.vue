@@ -75,7 +75,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .bg{
     /* position: relative; */
     height: 100%;

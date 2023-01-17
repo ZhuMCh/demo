@@ -43,9 +43,10 @@ export default {
         this.$nextTick(() => {
             this.init();
             // 创建鼠标/手势按下监听器
-            window.addEventListener(this.mobileStatus ? "touchstart" : "mousedown", this.startDraw)
+            let canvasEl = document.getElementById("signBoard")
+            canvasEl.addEventListener(this.mobileStatus ? "touchstart" : "mousedown", this.startDraw)
             // 创建鼠标/手势 弹起/离开 监听器
-            window.addEventListener(this.mobileStatus ? "touchend" : "mouseup", this.cloaseDraw)
+            canvasEl.addEventListener(this.mobileStatus ? "touchend" : "mouseup", this.cloaseDraw)
         })
     },
     methods: {
@@ -99,7 +100,7 @@ export default {
             // 设置画线起始点位
             this.ctx.moveTo(this.client.endX, this.client.endY)
             // 监听 鼠标移动或手势移动
-            window.addEventListener(this.mobileStatus ? "touchmove" : "mousemove", this.draw)
+            document.getElementById("signBoard").addEventListener(this.mobileStatus ? "touchmove" : "mousemove", this.draw)
         },
         draw(event) {
             // 获取当前坐标点位
@@ -118,7 +119,7 @@ export default {
             // 结束绘制
             this.ctx.closePath()
             // 移除鼠标移动或手势移动监听器
-            window.removeEventListener("mousemove", this.draw)
+            document.getElementById("signBoard").removeEventListener("mousemove", this.draw)
         },
         handelCancel() {
             // 清空当前画布上的所有绘制内容
